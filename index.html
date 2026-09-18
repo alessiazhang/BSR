@@ -69,7 +69,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang 
   </section>
   <section class="tabs" id="tabs"></section>
   <section class="survey-box" aria-label="卖家提报入口">
-    <div class="survey-copy"><h2>商家SPU统一提报入口</h2><p>请先查看款式卡片中的商品编号，点击按钮进入卖家问卷，提交店铺ID、商品编号及SPU信息。</p><a class="survey-btn" href="https://seller.kuajingmaihuo.com/questionnaire?surveyId=206815805615" target="_blank" rel="noopener noreferrer">立即填写卖家问卷</a></div>
+    <div class="survey-copy"><h2>商家同款商品SPU提报入口</h2><p>请点击按钮进入卖家问卷，按要求填写商品编号、同款SPU等信息。</p><a class="survey-btn" href="https://seller.kuajingmaihuo.com/questionnaire?surveyId=206815805615" target="_blank" rel="noopener noreferrer">立即填写卖家问卷</a></div>
   </section>
   <div id="groups"></div>
 </main>
@@ -83,7 +83,7 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const TABS=['张阿莱','白条','许桑栀'];
 let curTab=TABS[0];
 function cardHTML(x){
-  const imgs=x.images.length?x.images.map((f,i)=>`<img src="images/${esc(f)}" alt="${esc(x.cat)}参考图${i+1}" data-zoom>`).join(''):'<div style="padding:30px;color:#8892a3">暂无参考图</div>';
+  const imgs=x.images.length?x.images.map((f,i)=>`<img src="${esc(f)}" alt="${esc(x.cat)}参考图${i+1}" data-zoom>`).join(''):'<div style="padding:30px;color:#8892a3">暂无参考图</div>';
   return `<article class="card"><div class="card-head"><div class="task" data-copy="${esc(x.zp)}" title="点击复制商品编号">商品编号：${esc(x.zp)}</div></div><div class="gallery">${imgs}</div><div class="meta"><div class="label">类目上新路径</div><div class="category" data-copy="${esc(x.catpath)}" data-noreplace title="点击复制类目上新路径">${esc(x.catpath)}</div></div></article>`;
 }
 function render(){
