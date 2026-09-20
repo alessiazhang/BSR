@@ -36,6 +36,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang 
 .task.copied{color:#147d64}
 .gallery{height:250px;padding:0 16px 14px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(145px,1fr);gap:7px;overflow-x:auto}
 .gallery img{width:100%;height:100%;object-fit:cover;border-radius:11px;background:#f1f3f7;cursor:zoom-in}
+.gallery.single{grid-auto-columns:25%}
 .meta{border-top:1px solid var(--line);padding:14px 17px}
 .label{font-size:12px;color:var(--muted);margin-bottom:6px}
 .category{font-size:13px;font-weight:700;line-height:1.65;color:#263247;word-break:break-all;background:#f8f9fb;border-left:3px solid var(--orange);padding:8px 10px;border-radius:6px}
@@ -84,7 +85,7 @@ const TABS=['张阿莱','白条','许桑栀'];
 let curTab=TABS[0];
 function cardHTML(x){
   const imgs=x.images.length?x.images.map((f,i)=>`<img src="${esc(f)}" alt="${esc(x.cat)}参考图${i+1}" data-zoom>`).join(''):'<div style="padding:30px;color:#8892a3">暂无参考图</div>';
-  return `<article class="card"><div class="card-head"><div class="task" data-copy="${esc(x.zp)}" title="点击复制商品编号">商品编号：${esc(x.zp)}</div></div><div class="gallery">${imgs}</div><div class="meta"><div class="label">类目上新路径</div><div class="category" data-copy="${esc(x.catpath)}" data-noreplace title="点击复制类目上新路径">${esc(x.catpath)}</div></div></article>`;
+  return `<article class="card"><div class="card-head"><div class="task" data-copy="${esc(x.zp)}" title="点击复制商品编号">商品编号：${esc(x.zp)}</div></div><div class="gallery${x.images.length===1?' single':''}">${imgs}</div><div class="meta"><div class="label">类目上新路径</div><div class="category" data-copy="${esc(x.catpath)}" data-noreplace title="点击复制类目上新路径">${esc(x.catpath)}</div></div></article>`;
 }
 function render(){
   $('#groups').innerHTML=TABS.map(o=>{
