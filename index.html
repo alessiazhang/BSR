@@ -284,6 +284,41 @@ img{max-width:100%}
 @media(min-width:1900px){
   #page-bk .bk-cards-grid{grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:20px}
 }
+/* ===== 编号行：风险徽标放大，宽度不够时「风险」竖排，整行始终单行 ===== */
+#page-bk .bk-card{container-type:inline-size}
+#page-bk .bk-card-no{gap:5px;padding:8px 11px;flex-wrap:nowrap;align-items:center}
+#page-bk .bk-no-label{font-size:12px;white-space:nowrap;flex:0 0 auto}
+#page-bk .bk-no-val{font-size:13px;font-weight:750;white-space:nowrap;word-break:normal;
+  flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;margin-left:0;
+  line-height:1.35;letter-spacing:-.1px}
+#page-bk .bk-risk-badge{font-size:11px;font-weight:800;padding:2px 7px;border-radius:7px;
+  line-height:1.35;letter-spacing:.3px;margin-left:0;flex:0 0 auto;white-space:nowrap}
+/* 卡片偏窄：「风险」改为竖排，只占一个字宽 */
+@container (max-width:215px){
+  #page-bk .bk-risk-badge{writing-mode:vertical-rl;text-orientation:upright;
+    font-size:10px;padding:2px 2px;line-height:1.05;border-radius:5px;
+    letter-spacing:.5px;white-space:normal}
+}
+/* 再窄：省掉「商品编号：」字样，保住编号完整 */
+@container (max-width:193px){
+  #page-bk .bk-no-label{display:none}
+  #page-bk .bk-no-val{font-size:12.5px;letter-spacing:0}
+}
+@supports not (container-type:inline-size){
+  @media(max-width:1100px){
+    #page-bk .bk-risk-badge{writing-mode:vertical-rl;text-orientation:upright;
+      font-size:10px;padding:2px 2px;line-height:1.05;border-radius:5px;letter-spacing:.5px}
+  }
+  @media(max-width:900px){#page-bk .bk-no-label{display:none}}
+}
+@media(max-width:640px){
+  #page-bk .bk-no-label{display:none}
+  #page-bk .bk-card-no{gap:4px;padding:7px 10px}
+  #page-bk .bk-no-val{font-size:12.5px}
+  #page-bk .bk-risk-badge{writing-mode:vertical-rl;text-orientation:upright;
+    font-size:10px;padding:2px 2px;line-height:1.05;border-radius:5px;letter-spacing:.5px}
+}
+
 </style>
 </head>
 <body>
