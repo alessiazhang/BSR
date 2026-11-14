@@ -356,12 +356,8 @@ img{max-width:100%}
 
 /* ===== 左侧栏「NEW」更新标识 ===== */
 .side-item{position:relative}
-.side-new{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;height:18px;padding:0 7px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.7px;line-height:1;color:#fff;text-indent:.7px;white-space:nowrap;background:linear-gradient(135deg,#FB7701,#FF8F2E);box-shadow:0 2px 8px rgba(251,119,1,.38);animation:sideNewPulse 2.4s ease-in-out infinite}
-.side-item.active .side-new{background:linear-gradient(135deg,#FB7701,#FF8F2E)}
-.side-item.seen .side-new{display:none}
-@keyframes sideNewPulse{0%,100%{box-shadow:0 2px 8px rgba(251,119,1,.30);transform:translateY(0)}50%{box-shadow:0 3px 13px rgba(251,119,1,.62);transform:translateY(-1px)}}
-@media(prefers-reduced-motion:reduce){.side-new{animation:none}}
-@media(max-width:640px){.side-new{height:16px;font-size:9px;padding:0 6px}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@media(prefers-reduced-motion:reduce){[id^="new-badge-nav-"]{animation:none!important}}
 </style>
 </head>
 <body>
@@ -373,7 +369,7 @@ img{max-width:100%}
     </div>
     <nav>
       <button class="side-item active" data-page="bsr">🔥BSR同款提报</button>
-      <button class="side-item" data-page="bk" data-new="202611-b4">🔥爆款推荐款式<span class="side-new">NEW</span></button>
+      <button class="side-item" data-page="bk" data-new="202611-b4">🔥爆款推荐款式<span id="new-badge-nav-bk" data-nv="202611-b4" data-manual-seen="1" style="margin-left:6px;padding:1px 8px;background:#FF4444;color:#fff;border-radius:10px;font-size:11px;font-weight:700;vertical-align:middle;animation:pulse 1.5s infinite;display:inline-block">NEW</span></button>
     </nav>
     <div style="margin-top:auto;padding-top:16px;margin-left:-14px;margin-right:-14px"><div style="background:linear-gradient(135deg,#FB7701,#FF9933);padding:16px 20px;color:#fff">
     <div style="font-size:14px;margin-bottom:8px;line-height:1.8"><b>对接运营：</b><span style="opacity:0.9">张阿莱 / 白条 / 许桑栀 / 周以灵 / 文许容</span></div>
@@ -803,35 +799,32 @@ document.querySelectorAll('.side-item').forEach(function(b){
     window.scrollTo(0,0);
   };
 });
-/* ===== 左侧栏 NEW 标识：点进该板块后再离开，标识自动消失 ===== */
+/* ===== 左侧栏 NEW 标识：进入保留、切走消失，按板块独立记忆 ===== */
 (function(){
-  var KEY='hkSideNewSeen_v1';
-  var items=Array.prototype.slice.call(document.querySelectorAll('.side-item[data-new]'));
-  if(!items.length){return;}
-  var seen={};
-  try{seen=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){seen={};}
-  function paint(){
-    items.forEach(function(b){
-      var v=b.getAttribute('data-new');
-      if(seen[b.dataset.page]===v){b.classList.add('seen');}
-      else{b.classList.remove('seen');}
-    });
-  }
+  function keyOf(id){return id+'-nav-seen';}
+  function hide(b){b.style.display='none';}
+  function show(b){b.style.display='inline-block';}
+  var badges=Array.prototype.slice.call(document.querySelectorAll('[id^="new-badge-nav-"]'));
+  if(!badges.length){return;}
+  badges.forEach(function(b){
+    var id=b.id.replace('new-badge-nav-','');
+    var seen=false;
+    try{seen=localStorage.getItem(keyOf(id))==='1';}catch(e){seen=false;}
+    if(seen){hide(b);}else{show(b);}
+  });
   var act=document.querySelector('.side-item.active');
   var cur=act?act.dataset.page:null;
-  paint();
-  Array.prototype.forEach.call(document.querySelectorAll('.side-item'),function(b){
-    b.addEventListener('click',function(){
-      var to=b.dataset.page;
+  Array.prototype.forEach.call(document.querySelectorAll('.side-item'),function(item){
+    item.addEventListener('click',function(){
+      var to=item.dataset.page;
       if(cur&&cur!==to){
-        var prev=document.querySelector('.side-item[data-page="'+cur+'"]');
-        if(prev&&prev.getAttribute('data-new')){
-          seen[cur]=prev.getAttribute('data-new');
-          try{localStorage.setItem(KEY,JSON.stringify(seen));}catch(e){}
+        var pb=document.getElementById('new-badge-nav-'+cur);
+        if(pb){
+          try{localStorage.setItem(keyOf(cur),'1');}catch(e){}
+          hide(pb);
         }
       }
       cur=to;
-      paint();
     });
   });
 })();
