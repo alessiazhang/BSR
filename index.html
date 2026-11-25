@@ -43,9 +43,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang 
 .task{font-size:17px;font-weight:800;color:var(--ink);margin-top:5px;cursor:pointer;display:inline-flex;align-items:center}
 .task:hover{color:var(--orange)}
 .task.copied{color:#147d64}
-.gallery{height:250px;padding:0 16px 14px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(145px,1fr);gap:7px;overflow-x:auto}
-.gallery img{width:100%;height:100%;object-fit:cover;border-radius:11px;background:#f1f3f7;cursor:zoom-in}
-.gallery.single,.gallery.two{grid-auto-columns:25%}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:0 16px 14px;align-items:start}
+.gallery img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:9px;background:#f1f3f7;cursor:zoom-in;display:block}
 .meta{border-top:1px solid var(--line);padding:14px 17px}
 .label{font-size:12px;color:var(--muted);margin-bottom:6px}
 .category{font-size:13px;font-weight:700;line-height:1.65;color:#263247;word-break:break-all;background:#f8f9fb;border-left:3px solid var(--orange);padding:8px 10px;border-radius:6px}
@@ -93,8 +92,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang 
 .survey-card p{margin:0 0 16px;color:var(--muted);line-height:1.65;font-size:14px}
 .survey-btn-block{width:100%;text-align:center}
 @media(max-width:1000px){.bsr-layout{grid-template-columns:1fr}.bsr-side{position:static}}
-@media(max-width:1000px){.wrap{padding:14px}.hero{padding:22px}.hero h1{font-size:27px}.info-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.gallery{height:220px}}
-@media(max-width:600px){.hero h1{font-size:23px}.survey-box{grid-template-columns:1fr}.survey-btn{width:100%;text-align:center}.gallery{grid-auto-columns:82%;height:250px}}
+@media(max-width:1000px){.wrap{padding:14px}.hero{padding:22px}.hero h1{font-size:27px}.info-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+@media(max-width:600px){.hero h1{font-size:23px}.survey-box{grid-template-columns:1fr}.survey-btn{width:100%;text-align:center}}
 
 /* ===== 左侧导览栏（固定） ===== */
 .layout{min-height:100vh}
